@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Vue.JS - Tutorial</title>
+    </head>
+    <body>
+        <div id="myapp">
+            <h1 style="text-align: center;">Show Users</h1>
+            <div>
+                <table class="customers">
+                    <thead>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                    </thead>
+                    <tbody>
+                        <tr v-for="customer in user">
+                            <td> {{customer.id}} </td>
+                            <td> {{customer.name}} </td>
+                            <td> {{customer.username}} </td>
+                            <td> {{customer.email}} </td>
+                            <td> {{customer.address}} </td>
+                        </tr>
+                    </tbody>
+                  </table>
+            </div>
+            <p>Total: {{user.length}}</p>
+        </div>
+        <br>
+        <div id="myapp-todos">
+            <h1 style="text-align: center;">Show To do List</h1>
+            <div>
+                <table class="todo">
+                    <thead>
+                        <th>UserID</th>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Completed</th>
+                    </thead>
+                    <tbody>
+                        <tr v-for="todo in todos">
+                            <td> {{todo.userId}} </td>
+                            <td> {{todo.id}} </td>
+                            <td> {{todo.title}} </td>
+                            <td> {{todo.completed}} </td>
+                        </tr>
+                    </tbody>
+                  </table>
+            </div>
+            <p>Total: {{todos.length}}</p>
+        </div>
+
+        <!-- Javascript -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        <script>
+            new Vue({
+                el: '#myapp',
+                data(){
+                    return {
+                        title: 'Basic axios',
+                        user: []
+                    }
+                },
+                mounted() {
+                    axios.get('https://jsonplaceholder.typicode.com/users')
+                    // .then(function(resp){
+                    //     console.log(resp.data)
+                    // })
+                    .then((resp) => {
+                        this.user = resp.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                }
+            })
+
+            new Vue({
+                el: '#myapp-todos',
+                data(){
+                    return {
+                        title: 'Basic axios',
+                        todos: []
+                    }
+                },
+                mounted() {
+                    axios.get('https://jsonplaceholder.typicode.com/todos')
+                    // .then(function(resp){
+                    //     console.log(resp.data)
+                    // })
+                    .then((resp) => {
+                        this.todos = resp.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                }
+            })
+        </script>
+
+    </body>
+</html>
+
+<style>
+.customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.customers td, .customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.customers tr:nth-child(even){background-color: #f2f2f2;}
+
+.customers tr:hover {background-color: #ddd;}
+
+.customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #b61cca;
+  color: white;
+  size: 18px;
+}
+
+.todo {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.todo td, .customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.todo th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #fd88d6;
+  color: rgb(77, 76, 76);
+  size: 18px;
+}
+</style>
+
+<!-- v-if id(user)=id(todos)
+แล้วแสดง title ตาม completed
+ถ้า completed = true ให้แสดงข้อความปกติ
+else completed = false ให้แสดงข้อความแบบขีดเส้นกลาง -->
